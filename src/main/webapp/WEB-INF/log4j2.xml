@@ -1,0 +1,26 @@
+<Configuration status="WARN" monitorInterval="300">
+    <properties>
+        <property name="logDir">/home/web/logs</property>
+        <property name="fileName">sharedSession</property>
+    </properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d [%t] [%level] %c - %m%n"/>
+        </Console>
+        <RollingRandomAccessFile name="File" fileName="${logDir}/${fileName}.log"
+            filePattern="${logDir}/${fileName}-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="%d [%t] [%level] %c - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy fileIndex="nomax"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <!-- <AppenderRef ref="File"/> -->
+        </Root>
+    </Loggers>
+</Configuration>

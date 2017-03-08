@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>shared session</title>
+</head>
+<body>
+<h3>Set Session Attribute:</h3>
+AttrName: <input type="text" id="name"/> AttrValue: <input type="text" id="value"/> <button id="submit">Submit</button>
+<h3>Get Session Attributes:</h3>
+<button id="get">Get</button>
+<div id="attrs"></div>
+<script src="js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+$("#submit").click(function() {
+	var name = $("#name").val();
+	var value = $("#value").val();
+	$.ajax({
+		url: "s", 
+		method: "get",
+		data: "op=set&"+name+"="+value,
+		cache: false, 
+		dataType: "json",
+		contentType: "application/x-www-form-urlencoded; charset=utf-8",
+		success: function(data) {
+			$("#name").val("");
+			$("#value").val("");
+		}
+	});
+});
+
+$("#get").click(function() {
+	$.ajax({
+		url: "s", 
+		method: "get",
+		data: "op=get",
+		cache: false, 
+		dataType: "json",
+		contentType: "application/x-www-form-urlencoded; charset=utf-8",
+		success: function(data) {
+			$("#attrs").html(JSON.stringify(data));
+		}
+	});
+})
+</script>
+</body>
+</html>

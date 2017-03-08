@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+        
+    <context:annotation-config/>
+	<bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+		<property name="maxInactiveIntervalInSeconds" value="1800"/>
+		<property name="redisNamespace" value="shared"/>
+		<property name="redisFlushMode" value="ON_SAVE"/>
+	</bean>
+	
+	<bean class="org.springframework.session.web.http.DefaultCookieSerializer">
+		<property name="cookieName" value="sh_JSESSIONID"></property>
+		<!-- <property name="cookiePath" value="/sharedSession/"></property>
+		<property name="domainName" value="localhost"></property>
+		<property name="useHttpOnlyCookie" value="true"></property>
+		<property name="cookieMaxAge" value="-1"></property> -->
+	</bean>
+	
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxTotal" value="20"/>
+		<property name="maxIdle" value="5"/>
+    </bean>
+    
+	<bean class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<property name="hostName" value="192.168.8.110"/>
+		<property name="port" value="6379"/>
+		<property name="poolConfig" ref="jedisPoolConfig"/>
+	</bean>
+</beans>
